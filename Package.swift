@@ -5,9 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "dit",
-    platforms: [.macOS(SupportedPlatform.MacOSVersion.v10_16)],
+    platforms: [.macOS(SupportedPlatform.MacOSVersion.v11)],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.2.0")),
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.3.1")),
     ],
     targets: [
         .target(
