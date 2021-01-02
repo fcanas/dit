@@ -1,3 +1,4 @@
+/// Sequence of natural numbers. 1, 2, 3, etc.
 class Naturals : Sequence {
     
     __consuming func makeIterator() -> NaturalIterator {
