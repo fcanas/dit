@@ -1,7 +1,6 @@
 import ArgumentParser
 import EventKit
 
-
 struct Query: ParsableCommand {
     
     enum Scope: String, EnumerableFlag {
@@ -16,14 +15,8 @@ struct Query: ParsableCommand {
     @Option(name: .shortAndLong, help: "The list to query. Default can be set with the configure command.")
     var list: String?
     
-    @Option(name: .shortAndLong, help: "The interval in days. Matches due dates in the future and completion date in the past.")
-    var days: Int = 1
-    
-    @Option(name: .shortAndLong, help: "The interval in hours. Matches due dates in the future and completion date in the past.")
-    var hours: Int = 0
-    
-    @Option(name: .shortAndLong, help: "The interval in minutes. Matches due dates in the future and completion date in the past.")
-    var minutes: Int = 0
+    @Option(name: .shortAndLong, help: "", transform: Interval.init)
+    var dueIn: Interval?
     
     func run() throws {
         let configuration = Configuration()
@@ -40,19 +33,19 @@ struct Query: ParsableCommand {
             throw "No list named \(targetList) found."
         }
         
-        let searchInterval = TimeInterval(days).days + TimeInterval(hours).hours + TimeInterval(minutes).minutes
-        
         let predicate: NSPredicate
         
         switch scope {
         case .all:
             predicate = store.predicateForReminders(in: [targetCalendar])
         case .complete:
-            predicate = store.predicateForCompletedReminders(withCompletionDateStarting: Date().addingTimeInterval(-searchInterval), ending: Date(), calendars: [targetCalendar])
+            predicate = store.predicateForCompletedReminders(withCompletionDateStarting: nil, ending: nil, calendars: [targetCalendar])
         case .incomplete:
-            // Date()
-            // Date().addingTimeInterval(searchInterval)
-            predicate = store.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: [targetCalendar])
+            let ending: Date? = nil
+//            if let interval = dueIn {
+//                ending = Date().addingTimeInterval(interval.timeInterval)
+//            }
+            predicate = store.predicateForIncompleteReminders(withDueDateStarting: nil, ending: ending, calendars: [targetCalendar])
         }
         
         let reminders = store.sync.fetchReminders(matching: predicate)

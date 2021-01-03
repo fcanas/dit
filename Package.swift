@@ -8,11 +8,15 @@ let package = Package(
     platforms: [.macOS(SupportedPlatform.MacOSVersion.v11)],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.3.1")),
+        .package(url: "https://github.com/fcanas/FFCParserCombinator", .upToNextMinor(from: "1.0.1"))
     ],
     targets: [
         .target(
             name: "dit",
-            dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]),
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "FFCParserCombinator", package: "FFCParserCombinator")
+            ]),
         .testTarget(
             name: "ditTests",
             dependencies: ["dit"]),

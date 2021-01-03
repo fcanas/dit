@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "FFCParserCombinator",
+        "repositoryURL": "https://github.com/fcanas/FFCParserCombinator",
+        "state": {
+          "branch": null,
+          "revision": "b5650a762dc2ac31a0f6164ce96243288de3863f",
+          "version": "1.0.1"
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
