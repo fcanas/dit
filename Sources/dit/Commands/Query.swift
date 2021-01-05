@@ -16,7 +16,10 @@ struct Query: ParsableCommand {
     var list: String?
     
     @Option(name: .shortAndLong, help: "", transform: Interval.init)
-    var dueIn: Interval?
+    var starting: Interval?
+    
+    @Option(name: .shortAndLong, help: "", transform: Interval.init)
+    var ending: Interval?
     
     func run() throws {
         let configuration = Configuration()
@@ -33,22 +36,25 @@ struct Query: ParsableCommand {
             throw "No list named \(targetList) found."
         }
         
-        let predicate: NSPredicate
+        var predicates: [NSPredicate] = []
+        
+        func asDate(_ interval: Interval) -> Date? {
+            return Calendar.current.date(byAdding: interval.dateComponents, to: Date())
+        }
+        let start = starting.flatMap(asDate)
+        let end = ending.flatMap(asDate)
         
         switch scope {
         case .all:
-            predicate = store.predicateForReminders(in: [targetCalendar])
+            predicates.append(store.predicateForCompletedReminders(withCompletionDateStarting: start, ending: end, calendars: [targetCalendar]))
+            predicates.append(store.predicateForIncompleteReminders(withDueDateStarting: start, ending: end, calendars: [targetCalendar]))
         case .complete:
-            predicate = store.predicateForCompletedReminders(withCompletionDateStarting: nil, ending: nil, calendars: [targetCalendar])
+            predicates.append(store.predicateForCompletedReminders(withCompletionDateStarting: start, ending: end, calendars: [targetCalendar]))
         case .incomplete:
-            let ending: Date? = nil
-//            if let interval = dueIn {
-//                ending = Date().addingTimeInterval(interval.timeInterval)
-//            }
-            predicate = store.predicateForIncompleteReminders(withDueDateStarting: nil, ending: ending, calendars: [targetCalendar])
+            predicates.append(store.predicateForIncompleteReminders(withDueDateStarting: start, ending: end, calendars: [targetCalendar]))
         }
         
-        let reminders = store.sync.fetchReminders(matching: predicate)
+        let reminders = predicates.flatMap { store.sync.fetchReminders(matching: $0) }
         reminders.forEach({ (reminder) in
             print("[\(reminder.isCompleted ? "✓" : "-")] \(reminder.title ?? "")")
         })
