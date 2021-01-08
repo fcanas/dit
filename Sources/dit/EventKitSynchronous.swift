@@ -5,11 +5,10 @@ extension EKEventStore {
         SynchronousEventStore(store: self)
     }
     
-    func calendar(named: String) -> EKCalendar? {
-        calendars(for: .reminder).first { (cal) -> Bool in
+    func calendar(named: String, entityType: EKEntityType = .reminder) -> EKCalendar? {
+        calendars(for: entityType).first { (cal) -> Bool in
             cal.title == named
         }
-        
     }
 }
 

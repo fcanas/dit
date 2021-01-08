@@ -17,7 +17,7 @@ struct Lists: ParsableCommand {
         
         let calendarIteration = zip(calendars,Naturals())
         calendarIteration.forEach { (calendar, number) in
-            print("[\(number)] \(calendar.title)")
+            print("[\(number)] \(calendar.title.underline)")
         }
     }
 }

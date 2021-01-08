@@ -55,8 +55,17 @@ struct Query: ParsableCommand {
         }
         
         let reminders = predicates.flatMap { store.sync.fetchReminders(matching: $0) }
+        
+        let f = DateFormatter()
+        f.dateStyle = .medium
         reminders.forEach({ (reminder) in
-            print("[\(reminder.isCompleted ? "✓" : "-")] \(reminder.title ?? "")")
+            let dateOut: String
+            if let date = reminder.dueDateComponents?.date {
+                dateOut = " - \(f.string(from: date))"
+            } else {
+                dateOut = ""
+            }
+            print("[\(reminder.isCompleted ? "✓" : "-")] \(reminder.title?.bold ?? "")\(dateOut)")
         })
     }
 }
