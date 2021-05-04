@@ -1,7 +1,7 @@
 import FFCParserCombinator
 import Foundation
 
-struct Interval {
+public struct Interval {
     
     static let years = Int.parser <* ("y" <|> "Y") <* CharacterSet.whitespaces.parser().many
     static let months = Int.parser <* ("m" <|> "M") <* CharacterSet.whitespaces.parser().many
@@ -9,17 +9,10 @@ struct Interval {
     static let days = Int.parser <* ("d" <|> "D") <* CharacterSet.whitespaces.parser().many
     static let hours = Int.parser <* ("h" <|> "H") <* CharacterSet.whitespaces.parser().many
     static let minutes = Int.parser <* ("n" <|> "N") <* CharacterSet.whitespaces.parser().many
+
+    public let dateComponents: DateComponents
     
-    // let years: Int
-    // let months: Int
-    // let weeks: Int
-    // let days: Int
-    // let hours: Int
-    // let minutes: Int
-    
-    let dateComponents: DateComponents
-    
-    init(_ string: String) throws {
+    public init(_ string: String) throws {
         
         var dc: DateComponents = DateComponents()
         

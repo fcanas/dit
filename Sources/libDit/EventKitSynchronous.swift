@@ -1,11 +1,11 @@
 import EventKit
 
 extension EKEventStore {
-    var sync: SynchronousEventStore {
+    public var sync: SynchronousEventStore {
         SynchronousEventStore(store: self)
     }
     
-    func calendar(named: String, entityType: EKEntityType = .reminder) -> EKCalendar? {
+    public func calendar(named: String, entityType: EKEntityType = .reminder) -> EKCalendar? {
         calendars(for: entityType).first { (cal) -> Bool in
             cal.title == named
         }
@@ -14,7 +14,7 @@ extension EKEventStore {
 
 extension String: Error {}
 
-struct SynchronousEventStore {
+public struct SynchronousEventStore {
     
     internal init(store: EKEventStore) {
         self.store = store
@@ -23,7 +23,7 @@ struct SynchronousEventStore {
     private let store: EKEventStore
     private let wait = DispatchGroup()
     
-    func authorize() throws {
+    public func authorize() throws {
         let hasAccess: Bool = store.sync.requestAccess(to: .reminder)
         
         guard hasAccess == true else {
@@ -42,7 +42,7 @@ struct SynchronousEventStore {
         return hasAccess ?? false
     }
     
-    func fetchReminders(matching predicate: NSPredicate) -> [EKReminder] {
+    public func fetchReminders(matching predicate: NSPredicate) -> [EKReminder] {
         var remindersOut: [EKReminder]?
         wait.enter()
         store.fetchReminders(matching: predicate) { (reminders) in

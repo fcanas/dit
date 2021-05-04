@@ -1,6 +1,6 @@
 import ArgumentParser
 import EventKit
-
+import libDit
 
 struct Create: ParsableCommand {
     
@@ -12,6 +12,9 @@ struct Create: ParsableCommand {
     
     @Option(name: .shortAndLong, help: "", transform: Interval.init)
     var dueIn: Interval?
+    
+    @Option(name: .shortAndLong, help: "How often the reminder should repeat, e.g. 14d, 1w, 2m, 1y")
+    var repeats: Recurrence?
     
     func run() throws {
         
@@ -39,6 +42,10 @@ struct Create: ParsableCommand {
             }
             let dueComponents = calendar.dateComponents(in: calendar.timeZone, from: dueDate)
             reminder.dueDateComponents = dueComponents
+        }
+        
+        if let recurrence = repeats {
+            reminder.recurrenceRules = [recurrence.ek()]
         }
         
         try store.save(reminder, commit: true)
