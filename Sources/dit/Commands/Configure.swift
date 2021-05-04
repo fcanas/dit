@@ -18,8 +18,10 @@ class Configuration {
 
 struct Configure: ParsableCommand {
     
-    @Option(name: .shortAndLong, help: "Set the default target List when creating a reminder")
-    var target: String?
+    static var configuration: CommandConfiguration = CommandConfiguration(abstract: "Configure default settings.")
+    
+    @Option(name: .shortAndLong, help: "Set the default List when creating a reminder")
+    var defaultList: String?
     
     func run() throws {
         
@@ -32,9 +34,9 @@ struct Configure: ParsableCommand {
         
         let calendars = store.calendars(for: .reminder)
         
-        if let targetTitle = target {
+        if let targetTitle = defaultList {
             let eligible = calendars.filter { (calendar) -> Bool in
-                calendar.title == target
+                calendar.title == defaultList
             }
             guard eligible.count > 0 else {
                 throw "Could not find a List named \(targetTitle)"
