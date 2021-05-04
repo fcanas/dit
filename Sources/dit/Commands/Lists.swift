@@ -4,6 +4,8 @@ import libDit
 
 struct Lists: ParsableCommand {
     
+    static var configuration: CommandConfiguration = CommandConfiguration(abstract: "Display Lists of Reminders")
+    
     func run() throws {
         
         let store = EKEventStore()

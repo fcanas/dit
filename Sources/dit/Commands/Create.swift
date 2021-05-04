@@ -4,16 +4,18 @@ import libDit
 
 struct Create: ParsableCommand {
     
+    static var configuration: CommandConfiguration = CommandConfiguration(abstract: "Create a new reminder.")
+    
     @Option(name: .shortAndLong, help: "The list to create the reminder in")
     var list: String?
     
     @Argument(help: "Title for the new reminder")
     var title: String
     
-    @Option(name: .shortAndLong, help: "", transform: Interval.init)
+    @Option(name: .shortAndLong, help: "An interval specifying how far from now the reminder is due, specified in mi\("n".underline)utes, \("h".underline)ours, \("d".underline)ays, \("w".underline)eeks, \("m".underline)onths, and \("y".underline)ears. These units can be combined in ascending order, e.g. \("1y2m17h22s".bold)", transform: Interval.init)
     var dueIn: Interval?
     
-    @Option(name: .shortAndLong, help: "How often the reminder should repeat, e.g. 14d, 1w, 2m, 1y")
+    @Option(name: .shortAndLong, help: "How often the reminder should repeat, in \("d".underline)ays, \("w".underline)eeks, \("m".underline)onths, and \("y".underline)ears. These units cannot be comined. e.g. \("3w".bold), \("y".bold), \("d".bold), \("24d".bold)" )
     var repeats: Recurrence?
     
     func run() throws {

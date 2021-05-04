@@ -4,22 +4,26 @@ import libDit
 
 struct Query: ParsableCommand {
     
+    static var configuration: CommandConfiguration =
+        CommandConfiguration(abstract: "Show Reminders.",
+                             discussion: "Date filters \("--starting".bold) and \("--ending".bold) operate on the due date for incomplete tasks and the completion date for complete tasks.")
+    
     enum Scope: String, EnumerableFlag {
         case all
         case complete
         case incomplete
     }
     
-    @Flag(exclusivity: .exclusive, help: "Show completed reminders.")
+    @Flag(exclusivity: .exclusive, help: "Show Reminders based on completion status.")
     var scope: Scope = .incomplete
     
-    @Option(name: .shortAndLong, help: "The list to query. Default can be set with the configure command.")
+    @Option(name: .shortAndLong, help: "The name of the list to query. Default can be set with the \(Configure._commandName.bold) command.")
     var list: String?
     
-    @Option(name: .shortAndLong, help: "", transform: Interval.init)
+    @Option(name: .shortAndLong, help: "Beginning of time range to query within, specified relative to today. e.g. \("2d".bold) specifies to search for Reminders beginning two days from now.", transform: Interval.init)
     var starting: Interval?
     
-    @Option(name: .shortAndLong, help: "", transform: Interval.init)
+    @Option(name: .shortAndLong, help: "End of time range to query within, specified relative to today. e.g. \("3w".bold) specifies to search for Reminders before three weeks from now.", transform: Interval.init)
     var ending: Interval?
     
     func run() throws {
@@ -31,7 +35,7 @@ struct Query: ParsableCommand {
         let calendars = store.calendars(for: .reminder)
         
         guard let targetList = list ?? configuration.targetList else {
-            throw "No target list to query. Specify one with --list, or set a default with the configure command."
+            throw "No default List to query. Specify one with \("--list".bold), or set a default with the configure command."
         }
         guard let targetCalendar = calendars.first(where: { $0.title == targetList }) else {
             throw "No list named \(targetList) found."
