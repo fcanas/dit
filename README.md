@@ -14,6 +14,7 @@ dit is not complete, and its structure would have to change substantially to bec
   - in a default list
   - with a due date specified as an interval from today
   - with a recurrence specified as an time interval[<sup>‡</sup>](#recurrence)
+* Mark reminders as done/undone
 
 ## Documentation
 
@@ -33,6 +34,7 @@ SUBCOMMANDS:
   create                  Create a new reminder.
   lists                   Display Lists of Reminders
   configure               Configure default settings.
+  do                      Mark reminders as done.
 
   See 'dit help <subcommand>' for detailed help.
 ```
@@ -42,23 +44,26 @@ SUBCOMMANDS:
 ```
 OVERVIEW: Show Reminders.
 
-Date filters --starting and --ending operate on the due date for incomplete tasks and the completion date for
-complete tasks.
+Date filters --starting and --ending operate on the due date for
+incomplete tasks and the completion date for complete tasks.
 
 USAGE: dit query [--all] [--complete] [--incomplete] [--list <list>] [--starting <starting>] [--ending <ending>]
 
 OPTIONS:
   --all/--complete/--incomplete
                           Show Reminders based on completion status. (default: incomplete)
-  -l, --list <list>       The name of the list to query. Default can be set with the configure command. 
+  -l, --list <list>       The name of the list to query. Default can be set with the
+                          configure command. 
   -s, --starting <starting>
-                          Beginning of time range to query within, specified relative to today. e.g. 2d specifies to
-                          search for Reminders beginning two days from now. 
-  -e, --ending <ending>   End of time range to query within, specified relative to today. e.g. 3w specifies to search for
-                          Reminders before three weeks from now. 
+                          Beginning of time range to query within, specified relative to
+                          today. e.g. 2d specifies to search for Reminders
+                          beginning two days from now. 
+  -e, --ending <ending>   End of time range to query within, specified relative to today.
+                          e.g. 3w specifies to search for Reminders before three
+                          weeks from now. 
   --version               Show the version.
   -h, --help              Show help information.
-  ```
+```
 
 ### `dit create`
 
@@ -72,11 +77,14 @@ ARGUMENTS:
 
 OPTIONS:
   -l, --list <list>       The list to create the reminder in 
-  -d, --due-in <due-in>   An interval specifying how far from now the reminder is due, specified in minutes,
-                          hours, days, weeks, months, and years. These units can be
-                          combined in ascending order, e.g. 1y2m17h22s 
-  -r, --repeats <repeats> How often the reminder should repeat, in days, weeks, months, and
-                          years. These units cannot be comined. e.g. 3w, y, d, 24d 
+  -d, --due-in <due-in>   An interval specifying how far from now the reminder is due,
+                          specified in minutes, hours, days,
+                          weeks, months, and years. These units
+                          can be combined in ascending order, e.g. 1y2m17h22s 
+  -r, --repeats <repeats> How often the reminder should repeat, in days,
+                          weeks, months, and years. These units
+                          cannot be comined. e.g. 3w, y, d,
+                          24d 
   --version               Show the version.
   -h, --help              Show help information.
 ```
@@ -105,6 +113,34 @@ USAGE: dit configure [--default-list <default-list>]
 OPTIONS:
   -d, --default-list <default-list>
                           Set the default List when creating a reminder 
+  --version               Show the version.
+  -h, --help              Show help information.
+```
+
+### `dit do`
+
+```
+OVERVIEW: Mark reminders as done.
+
+Do is an interactive command.The flags and options form a query, and present a numbered
+list of items that can be selected for toggling. Date filters --starting and
+--ending operate on the due date for incomplete tasks and the completion date for
+complete tasks.
+
+USAGE: dit do [--all] [--complete] [--incomplete] [--list <list>] [--starting <starting>] [--ending <ending>]
+
+OPTIONS:
+  --all/--complete/--incomplete
+                          Show Reminders based on completion status. (default: incomplete)
+  -l, --list <list>       The name of the list to query. Default can be set with the
+                          configure command. 
+  -s, --starting <starting>
+                          Beginning of time range to query within, specified relative to
+                          today. e.g. 2d specifies to search for Reminders
+                          beginning two days from now. 
+  -e, --ending <ending>   End of time range to query within, specified relative to today.
+                          e.g. 3w specifies to search for Reminders before three
+                          weeks from now. 
   --version               Show the version.
   -h, --help              Show help information.
 ```
