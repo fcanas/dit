@@ -1,3 +1,4 @@
+import EventKit
 import Foundation
 
 extension String {
@@ -6,5 +7,11 @@ extension String {
     }
     var underline: String {
         "\u{001B}[4m\(self)\u{001B}[24m"
+    }
+}
+
+extension EKReminder {
+    var lineDescription: String {
+        return "[\(self.isCompleted ? "✓" : "-")] \(self.title?.bold ?? "")"
     }
 }

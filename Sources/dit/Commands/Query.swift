@@ -1,3 +1,4 @@
+import AppKit
 import ArgumentParser
 import EventKit
 import libDit
@@ -27,6 +28,10 @@ struct Query: ParsableCommand {
     var ending: Interval?
     
     func run() throws {
+        
+        let aa = NSWorkspace.shared.runningApplications
+        
+        
         let configuration = Configuration()
         
         let store = EKEventStore()
@@ -70,7 +75,7 @@ struct Query: ParsableCommand {
             } else {
                 dateOut = ""
             }
-            print("[\(reminder.isCompleted ? "✓" : "-")] \(reminder.title?.bold ?? "")\(dateOut)")
+            print("\(reminder.lineDescription)\(dateOut)")
         })
     }
 }

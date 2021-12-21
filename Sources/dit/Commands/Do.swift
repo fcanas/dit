@@ -1,6 +1,7 @@
 import ArgumentParser
 import EventKit
 import libDit
+import OSLog
 
 struct Do: ParsableCommand {
     
@@ -87,22 +88,18 @@ struct Do: ParsableCommand {
             return
         }
         
+        let logger = Logger()
+        
         let reminder = reminders[doIndex]
         reminder.isCompleted.toggle()
-        print(reminder.lineDescription)
-        print(reminder.hasChanges)
+        logger.debug("\(reminder.lineDescription), has changes : \(reminder.hasChanges)")
+        
         
         try store.save(reminder, commit: false)
         // Room for other work
         try store.commit()
         
-        print(reminder.lineDescription)
-        print(reminder.hasChanges)
+        logger.debug("\(reminder.lineDescription), has changes : \(reminder.hasChanges)")
     }
 }
 
-extension EKReminder {
-    var lineDescription: String {
-        return "[\(self.isCompleted ? "✓" : "-")] \(self.title?.bold ?? "")"
-    }
-}
