@@ -29,9 +29,6 @@ struct Query: ParsableCommand {
     
     func run() throws {
         
-        let aa = NSWorkspace.shared.runningApplications
-        
-        
         let configuration = Configuration()
         
         let store = EKEventStore()
