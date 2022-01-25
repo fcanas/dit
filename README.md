@@ -16,6 +16,19 @@ dit is not complete, and its structure would have to change substantially to bec
   - with a recurrence specified as an time interval[<sup>‡</sup>](#recurrence)
 * Mark reminders as done/undone
 
+## Installing
+
+The `dit` CLI tool is available via a [Homebrew](https://brew.sh) [tap](https://docs.brew.sh/Taps#the-brew-tap-command):
+
+`brew install fcanas/tap/dit`
+
+or
+
+```
+brew tap fcanas/tap
+brew install dit
+```
+
 ## Documentation
 
 ### `dit`
