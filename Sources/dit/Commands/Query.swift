@@ -7,7 +7,7 @@ struct Query: ParsableCommand {
     
     static var configuration: CommandConfiguration =
         CommandConfiguration(abstract: "Show Reminders.",
-                             discussion: "Date filters \("--starting".bold) and \("--ending".bold) operate on the due date for incomplete tasks and the completion date for complete tasks.")
+                             discussion: "Date filters --\(CodingKeys.starting.stringValue.bold) and --\(CodingKeys.ending.stringValue.bold) operate on the due date for incomplete tasks and the completion date for complete tasks.")
     
     enum Scope: String, EnumerableFlag {
         case all
@@ -37,7 +37,7 @@ struct Query: ParsableCommand {
         let calendars = store.calendars(for: .reminder)
         
         guard let targetList = list ?? configuration.targetList else {
-            throw "No default List to query. Specify one with \("--list".bold), or set a default with the configure command."
+            throw "No default List to query. Specify one with --\(CodingKeys.list.stringValue.bold), or set a default with the configure command."
         }
         guard let targetCalendar = calendars.first(where: { $0.title == targetList }) else {
             throw "No list named \(targetList) found."

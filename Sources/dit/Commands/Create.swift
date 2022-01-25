@@ -15,7 +15,7 @@ struct Create: ParsableCommand {
     @Option(name: .shortAndLong, help: "An interval specifying how far from now the reminder is due, specified in mi\("n".underline)utes, \("h".underline)ours, \("d".underline)ays, \("w".underline)eeks, \("m".underline)onths, and \("y".underline)ears. These units can be combined in ascending order, e.g. \("1y2m17h22s".bold)", transform: Interval.init)
     var dueIn: Interval?
     
-    @Option(name: .shortAndLong, help: "How often the reminder should repeat, in \("d".underline)ays, \("w".underline)eeks, \("m".underline)onths, and \("y".underline)ears. These units cannot be comined. e.g. \("3w".bold), \("y".bold), \("d".bold), \("24d".bold)" )
+    @Option(name: .shortAndLong, help: "How often the reminder should repeat, in \("d".underline)ays, \("w".underline)eeks, \("m".underline)onths, and \("y".underline)ears. These units cannot be combined. e.g. \("3w".bold), \("y".bold), \("d".bold), \("24d".bold)" )
     var repeats: Recurrence?
     
     func run() throws {
@@ -26,7 +26,7 @@ struct Create: ParsableCommand {
         try store.sync.authorize()
         
         guard let targetList = list ?? configuration.targetList else {
-            throw "No list to create a reminder in. Specify one with the --list option or the configure command."
+            throw "No list to create a reminder in. Specify one with the --\(CodingKeys.list.stringValue.bold) option or the configure command."
         }
         
         guard let list = store.calendar(named: targetList) else {
